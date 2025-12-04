@@ -1,3 +1,5 @@
+// lib/features/auth/domain/entity/user_entity.dart
+
 import 'package:equatable/equatable.dart';
 import 'package:rentverse/features/auth/domain/entity/profile_entity.dart';
 
