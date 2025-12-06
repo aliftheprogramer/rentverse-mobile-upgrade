@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/web.dart';
 import 'package:rentverse/common/bloc/auth/auth_cubit.dart';
 import 'package:rentverse/core/network/dio_client.dart';
+import 'package:rentverse/core/services/notification_service.dart';
 import 'package:rentverse/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:rentverse/features/auth/data/source/auth_api_service.dart';
 import 'package:rentverse/features/auth/data/source/auth_local_service.dart';
@@ -29,6 +30,10 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton<DioClient>(() => DioClient(sl(), sl()));
   sl.registerLazySingleton<Dio>(() => sl<DioClient>().dio);
   sl.registerLazySingleton<Logger>(() => Logger());
+  sl.registerLazySingleton<NotificationService>(
+    () =>
+        NotificationService(dio: sl<Dio>(), prefs: sl(), logger: sl<Logger>()),
+  );
 
   // Auth data sources & services
   sl.registerLazySingleton<AuthLocalDataSource>(

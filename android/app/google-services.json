@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "656592412430",
+    "project_id": "imperial-signer-453516-t3",
+    "storage_bucket": "imperial-signer-453516-t3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656592412430:android:718b336b8ecf2be647c15f",
+        "android_client_info": {
+          "package_name": "com.example.rentverse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRab9M4o64UF456brG2Bno9R2t4Btqiv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

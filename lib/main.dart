@@ -6,6 +6,7 @@ import 'package:rentverse/common/bloc/auth/auth_cubit.dart';
 import 'package:rentverse/common/bloc/auth/auth_state.dart';
 import 'package:rentverse/common/bloc/navigation/navigation_cubit.dart';
 import 'package:rentverse/common/colors/custom_color.dart';
+import 'package:rentverse/core/services/notification_service.dart';
 import 'package:rentverse/core/services/service_locator.dart';
 import 'package:rentverse/features/auth/domain/entity/user_entity.dart';
 import 'package:rentverse/features/auth/presentation/pages/auth_pages.dart';
@@ -21,7 +22,12 @@ import 'package:rentverse/common/screen/navigation_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.initializeFirebase();
   await setupServiceLocator();
+  final notificationService = sl<NotificationService>();
+  await notificationService.initLocalNotifications();
+  await notificationService.configureForegroundPresentation();
+  notificationService.listenForegroundMessages();
   runApp(const MyApp());
 }
 

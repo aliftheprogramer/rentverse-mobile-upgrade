@@ -16,19 +16,13 @@ class AuthPages extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         // AuthPageCubit tidak butuh usecase, jadi aman
-        BlocProvider<AuthPageCubit>(
-          create: (context) => AuthPageCubit(),
-        ),
-        
+        BlocProvider<AuthPageCubit>(create: (context) => AuthPageCubit()),
+
         // LoginCubit butuh LoginUseCase -> Ambil dari sl()
-        BlocProvider<LoginCubit>(
-          create: (context) => LoginCubit(sl()), 
-        ),
-        
+        BlocProvider<LoginCubit>(create: (context) => LoginCubit(sl(), sl())),
+
         // RegisterCubit butuh RegisterUseCase -> Ambil dari sl()
-        BlocProvider<RegisterCubit>(
-          create: (context) => RegisterCubit(sl()), 
-        ),
+        BlocProvider<RegisterCubit>(create: (context) => RegisterCubit(sl())),
       ],
       child: Scaffold(
         backgroundColor: Colors.white,

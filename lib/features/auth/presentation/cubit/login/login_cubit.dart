@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentverse/core/resources/data_state.dart';
+import 'package:rentverse/core/services/notification_service.dart';
 import 'package:rentverse/features/auth/domain/entity/login_request_entity.dart';
 import 'package:rentverse/features/auth/domain/usecase/login_usecase.dart';
 
@@ -8,8 +9,10 @@ import 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   // Inject UseCase Asli
   final LoginUseCase _loginUseCase;
+  final NotificationService _notificationService;
 
-  LoginCubit(this._loginUseCase) : super(const LoginState());
+  LoginCubit(this._loginUseCase, this._notificationService)
+    : super(const LoginState());
 
   void togglePasswordVisibility() {
     emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible));
@@ -26,6 +29,14 @@ class LoginCubit extends Cubit<LoginState> {
 
     // 3. Cek Hasil (Success / Failed)
     if (result is DataSuccess) {
+      // Register device token silently; don't block login flow on failure.
+      try {
+        await _notificationService.requestPermission();
+        await _notificationService.configureForegroundPresentation();
+        await _notificationService.registerDevice();
+        _notificationService.listenTokenRefresh();
+      } catch (_) {}
+
       emit(state.copyWith(status: LoginStatus.success));
     } else if (result is DataFailed) {
       // Ambil pesan error dari DioException atau default
