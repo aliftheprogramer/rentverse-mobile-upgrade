@@ -91,6 +91,10 @@ class _ProfileView extends StatelessWidget {
                           icon: Icons.location_on_outlined,
                           label: 'Address',
                         ),
+                        const _ProfileMenuItem(
+                          icon: Icons.wallet,
+                          label: 'My Wallet',
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),

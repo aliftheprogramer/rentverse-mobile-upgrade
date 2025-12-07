@@ -33,6 +33,10 @@ import 'package:rentverse/features/rental/data/repository/rental_repository_impl
 import 'package:rentverse/features/rental/data/source/rental_api_service.dart';
 import 'package:rentverse/features/rental/domain/repository/rental_repository.dart';
 import 'package:rentverse/features/rental/domain/usecase/get_rent_references_usecase.dart';
+import 'package:rentverse/features/wallet/data/repository/wallet_repository_impl.dart';
+import 'package:rentverse/features/wallet/data/source/wallet_api_service.dart';
+import 'package:rentverse/features/wallet/domain/repository/wallet_repository.dart';
+import 'package:rentverse/features/wallet/domain/usecase/get_wallet_usecase.dart';
 import 'package:rentverse/features/property/data/repository/property_repository_impl.dart';
 import 'package:rentverse/features/property/data/source/property_api_service.dart';
 import 'package:rentverse/features/property/domain/repository/property_repository.dart';
@@ -99,6 +103,12 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton<RentalRepository>(
     () => RentalRepositoryImpl(sl<RentalApiService>()),
   );
+  sl.registerLazySingleton<WalletApiService>(
+    () => WalletApiServiceImpl(sl<DioClient>()),
+  );
+  sl.registerLazySingleton<WalletRepository>(
+    () => WalletRepositoryImpl(sl<WalletApiService>()),
+  );
 
   // Auth usecases
   sl.registerLazySingleton(() => GetLocalUserUseCase(sl<AuthRepository>()));
@@ -123,6 +133,7 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton(
     () => GetRentReferencesUseCase(sl<RentalRepository>()),
   );
+  sl.registerLazySingleton(() => GetWalletUseCase(sl<WalletRepository>()));
 
   // cubits
   sl.registerLazySingleton(() => AuthCubit());
