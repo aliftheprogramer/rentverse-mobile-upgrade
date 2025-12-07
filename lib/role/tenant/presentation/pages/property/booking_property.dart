@@ -66,26 +66,33 @@ class BookingPropertyPage extends StatelessWidget {
                   : '${selectedPeriod.label} (${selectedPeriod.durationMonths} bln)';
 
               final priceLabel = _formatCurrency(property.price);
-              final propertyTypeLabel =
-                  property.propertyType?.label ?? 'Apartment';
+              final propertyTypeLabel = property.propertyType?.label ?? '-';
 
               return BlocBuilder<GetUserCubit, GetUserState>(
                 builder: (context, userState) {
-                  final tenantName = userState.user?.name ?? '';
-                  final tenantEmail = userState.user?.email ?? '';
-                  final tenantPhone = userState.user?.phone ?? '';
+                  final tenantName = userState.user?.name ?? '-';
+                  final tenantEmail = userState.user?.email ?? '-';
+                  final tenantPhone = userState.user?.phone ?? '-';
 
                   final meta = property.metadata ?? {};
                   final ownerName =
-                      (meta['landlordName'] ?? meta['ownerName'] ?? '')
+                      (meta['landlordName'] ?? meta['ownerName'] ?? '-')
                           .toString();
                   final ownerEmail =
-                      (meta['landlordEmail'] ?? meta['ownerEmail'] ?? '')
+                      (meta['landlordEmail'] ?? meta['ownerEmail'] ?? '-')
                           .toString();
                   final ownerPhone =
-                      (meta['landlordPhone'] ?? meta['ownerPhone'] ?? '')
+                      (meta['landlordPhone'] ?? meta['ownerPhone'] ?? '-')
                           .toString();
-                  final ownerAddress = '${property.city}, ${property.country}';
+                  final city = property.city.trim();
+                  final country = property.country.trim();
+                  final ownerAddress = [
+                    city,
+                    country,
+                  ].where((part) => part.isNotEmpty).join(', ');
+                  final resolvedOwnerAddress = ownerAddress.isEmpty
+                      ? '-'
+                      : ownerAddress;
 
                   return SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
@@ -97,9 +104,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Fullname',
                           child: CustomTextField(
-                            hintText: tenantName.isEmpty
-                                ? 'Masukan nama lengkap anda'
-                                : tenantName,
+                            hintText: tenantName,
+                            initialValue: tenantName,
                             prefixIcon: const Icon(Icons.person_outline),
                             readOnly: true,
                           ),
@@ -108,9 +114,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Email',
                           child: CustomTextField(
-                            hintText: tenantEmail.isEmpty
-                                ? 'Masukan email anda'
-                                : tenantEmail,
+                            hintText: tenantEmail,
+                            initialValue: tenantEmail,
                             keyboardType: TextInputType.emailAddress,
                             prefixIcon: const Icon(Icons.email_outlined),
                             readOnly: true,
@@ -120,7 +125,7 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Current Address',
                           child: const CustomTextField(
-                            hintText: 'Masukan nama lengkap anda',
+                            hintText: '-',
                             prefixIcon: Icon(Icons.home_outlined),
                             readOnly: true,
                           ),
@@ -129,9 +134,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Phone Number',
                           child: CustomTextField(
-                            hintText: tenantPhone.isEmpty
-                                ? 'Masukan nama lengkap anda'
-                                : tenantPhone,
+                            hintText: tenantPhone,
+                            initialValue: tenantPhone,
                             keyboardType: TextInputType.phone,
                             prefixIcon: const Icon(Icons.phone_outlined),
                             readOnly: true,
@@ -144,9 +148,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Fullname',
                           child: CustomTextField(
-                            hintText: ownerName.isEmpty
-                                ? 'Masukan nama lengkap anda'
-                                : ownerName,
+                            hintText: ownerName,
+                            initialValue: ownerName,
                             prefixIcon: const Icon(Icons.person_outline),
                             readOnly: true,
                           ),
@@ -155,9 +158,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Email',
                           child: CustomTextField(
-                            hintText: ownerEmail.isEmpty
-                                ? 'Masukan nama lengkap anda'
-                                : ownerEmail,
+                            hintText: ownerEmail,
+                            initialValue: ownerEmail,
                             prefixIcon: const Icon(Icons.email_outlined),
                             readOnly: true,
                           ),
@@ -166,7 +168,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Current Address',
                           child: CustomTextField(
-                            hintText: ownerAddress,
+                            hintText: resolvedOwnerAddress,
+                            initialValue: resolvedOwnerAddress,
                             prefixIcon: const Icon(Icons.home_outlined),
                             readOnly: true,
                           ),
@@ -175,9 +178,8 @@ class BookingPropertyPage extends StatelessWidget {
                         _LabeledField(
                           label: 'Phone Number',
                           child: CustomTextField(
-                            hintText: ownerPhone.isEmpty
-                                ? 'Masukan nama lengkap anda'
-                                : ownerPhone,
+                            hintText: ownerPhone,
+                            initialValue: ownerPhone,
                             keyboardType: TextInputType.phone,
                             prefixIcon: const Icon(Icons.phone_outlined),
                             readOnly: true,
@@ -193,7 +195,10 @@ class BookingPropertyPage extends StatelessWidget {
                           label: 'Property Address',
                           child: CustomTextField(
                             hintText: property.address.isEmpty
-                                ? 'Masukan nama lengkap anda'
+                                ? '-'
+                                : property.address,
+                            initialValue: property.address.isEmpty
+                                ? '-'
                                 : property.address,
                             prefixIcon: const Icon(Icons.location_on_outlined),
                             readOnly: true,
@@ -201,7 +206,7 @@ class BookingPropertyPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         _LabeledField(
-                          label: 'Start Address',
+                          label: 'Start Rent Date',
                           child: CustomTextField(
                             hintText: _formatDate(state.startDate),
                             readOnly: true,
@@ -240,6 +245,7 @@ class BookingPropertyPage extends StatelessWidget {
                           label: 'Monthly Rent Price',
                           child: CustomTextField(
                             hintText: priceLabel,
+                            initialValue: priceLabel,
                             readOnly: true,
                             prefixIcon: const Icon(Icons.payments_outlined),
                           ),
@@ -249,6 +255,7 @@ class BookingPropertyPage extends StatelessWidget {
                           label: 'Property Type',
                           child: CustomTextField(
                             hintText: propertyTypeLabel,
+                            initialValue: propertyTypeLabel,
                             readOnly: true,
                             prefixIcon: const Icon(Icons.apartment_outlined),
                           ),
