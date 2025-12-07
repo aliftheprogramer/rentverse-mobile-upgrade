@@ -106,8 +106,12 @@ class BookingCubit extends Cubit<BookingState> {
           startDate: state.startDate,
         ),
       );
+      Logger().i(
+        'Booking submit success -> bookingId=${res.bookingId}, invoiceId=${res.invoiceId}',
+      );
       emit(state.copyWith(isLoading: false, result: res));
     } catch (e) {
+      Logger().e('Booking submit failed', error: e);
       emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }

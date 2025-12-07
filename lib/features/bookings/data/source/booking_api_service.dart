@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:rentverse/core/network/dio_client.dart';
 import 'package:rentverse/features/bookings/data/models/booking_response_model.dart';
 import 'package:rentverse/features/bookings/data/models/request_booking_model.dart';
@@ -20,10 +21,12 @@ class BookingApiServiceImpl implements BookingApiService {
         '/bookings',
         data: request.toJson(),
       );
+      Logger().i('Booking POST success -> ${response.data}');
       return BookingResponseModel.fromJson(
         response.data as Map<String, dynamic>,
       );
     } catch (e) {
+      Logger().e('Booking POST failed', error: e);
       rethrow;
     }
   }
