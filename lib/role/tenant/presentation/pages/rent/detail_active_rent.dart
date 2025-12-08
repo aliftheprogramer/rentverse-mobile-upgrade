@@ -188,13 +188,15 @@ class _DetailCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Icon(Icons.home_work_outlined, color: Color(0xFF1CD8D2)),
-              SizedBox(width: 8),
-              Text(
+            children: [
+              const Icon(Icons.home_work_outlined, color: Color(0xFF1CD8D2)),
+              const SizedBox(width: 8),
+              const Text(
                 'Property & Rent Details',
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
               ),
+              const SizedBox(width: 8),
+              _BlinkingDot(),
             ],
           ),
           const SizedBox(height: 12),
@@ -285,5 +287,47 @@ class _ActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomButton(text: 'Extend', onTap: onExtend);
+  }
+}
+
+class _BlinkingDot extends StatefulWidget {
+  @override
+  State<_BlinkingDot> createState() => _BlinkingDotState();
+}
+
+class _BlinkingDotState extends State<_BlinkingDot>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+      lowerBound: 0.4,
+      upperBound: 1.0,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _controller,
+      child: Container(
+        width: 10,
+        height: 10,
+        decoration: const BoxDecoration(
+          color: Color(0xFF1CD8D2),
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
   }
 }
