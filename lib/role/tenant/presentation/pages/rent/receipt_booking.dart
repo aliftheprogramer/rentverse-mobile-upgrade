@@ -5,7 +5,7 @@ import 'package:rentverse/core/services/service_locator.dart';
 import 'package:rentverse/features/bookings/domain/entity/res/booking_response_entity.dart';
 import 'package:rentverse/role/tenant/presentation/cubit/receipt_booking/cubit.dart';
 import 'package:rentverse/role/tenant/presentation/cubit/receipt_booking/state.dart';
-import 'package:rentverse/role/tenant/presentation/pages/property/midtrans_payment_page.dart';
+import 'package:rentverse/role/tenant/presentation/pages/rent/midtrans_payment_page.dart';
 import 'package:rentverse/role/tenant/presentation/widget/receipt_booking/property_rent_details.dart';
 import 'package:rentverse/role/tenant/presentation/widget/receipt_booking/nav_bar_receipt.dart';
 

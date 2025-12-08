@@ -10,7 +10,7 @@ import 'package:rentverse/role/tenant/presentation/cubit/booking/cubit.dart';
 import 'package:rentverse/role/tenant/presentation/cubit/booking/state.dart';
 import 'package:rentverse/role/tenant/presentation/cubit/get_user/cubit.dart';
 import 'package:rentverse/role/tenant/presentation/cubit/get_user/state.dart';
-import 'package:rentverse/role/tenant/presentation/pages/property/receipt_booking.dart';
+import 'package:rentverse/role/tenant/presentation/pages/rent/receipt_booking.dart';
 
 class BookingPropertyPage extends StatelessWidget {
   const BookingPropertyPage({super.key, required this.property});
