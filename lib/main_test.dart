@@ -3,10 +3,10 @@ import 'package:rentverse/common/colors/custom_color.dart';
 import 'package:rentverse/common/screen/navigation_container.dart';
 import 'package:rentverse/core/services/service_locator.dart';
 import 'package:rentverse/features/auth/presentation/pages/profile_pages.dart';
-import 'package:rentverse/role/tenant/presentation/pages/chat.dart';
-import 'package:rentverse/role/tenant/presentation/pages/home.dart';
+import 'package:rentverse/role/tenant/presentation/pages/nav/chat.dart';
+import 'package:rentverse/role/tenant/presentation/pages/nav/home.dart';
 import 'package:rentverse/role/tenant/presentation/pages/property/property.dart';
-import 'package:rentverse/role/tenant/presentation/pages/rent.dart';
+import 'package:rentverse/role/tenant/presentation/pages/nav/rent.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

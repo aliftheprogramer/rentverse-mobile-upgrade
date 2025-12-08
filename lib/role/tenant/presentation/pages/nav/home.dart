@@ -10,7 +10,7 @@ import 'package:rentverse/role/tenant/presentation/widget/property/list_property
 import 'package:rentverse/role/tenant/presentation/widget/home/search_and_sort_widget.dart';
 import 'package:rentverse/features/property/domain/usecase/get_properties_usecase.dart';
 
-import '../widget/home/carousel_custom.dart';
+import '../../widget/home/carousel_custom.dart';
 
 class TenantHomePage extends StatelessWidget {
   const TenantHomePage({super.key});
