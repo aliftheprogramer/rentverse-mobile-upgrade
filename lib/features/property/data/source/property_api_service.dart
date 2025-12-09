@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'package:path/path.dart' as p;
 import 'package:rentverse/core/network/dio_client.dart';
 import 'package:rentverse/features/property/data/models/list_property_by_owner_response_model.dart';
 import 'package:rentverse/features/property/data/models/list_property_response_model.dart';
@@ -10,6 +13,10 @@ abstract class PropertyApiService {
   });
   Future<ListPropertyResponseModel> getProperties({int? limit, String? cursor});
   Future<PropertyDetailResponseModel> getPropertyDetail(String id);
+  Future<PropertyDetailResponseModel> createProperty(
+    Map<String, dynamic> fields,
+    List<String> imageFilePaths,
+  );
 }
 
 class PropertyApiServiceImpl implements PropertyApiService {
@@ -63,6 +70,45 @@ class PropertyApiServiceImpl implements PropertyApiService {
   Future<PropertyDetailResponseModel> getPropertyDetail(String id) async {
     try {
       final response = await _dioClient.get('/properties/$id');
+      return PropertyDetailResponseModel.fromJson(
+        response.data as Map<String, dynamic>,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PropertyDetailResponseModel> createProperty(
+    Map<String, dynamic> fields,
+    List<String> imageFilePaths,
+  ) async {
+    try {
+      final formData = FormData();
+
+      // Add text fields (convert complex objects to JSON string beforehand)
+      fields.forEach((key, value) {
+        if (value == null) return;
+        formData.fields.add(MapEntry(key, value.toString()));
+      });
+
+      // Attach files
+      for (final path in imageFilePaths) {
+        if (path.isEmpty) continue;
+        final filename = p.basename(path);
+        final multipart = await MultipartFile.fromFile(
+          path,
+          filename: filename,
+        );
+        formData.files.add(MapEntry('images', multipart));
+      }
+
+      final response = await _dioClient.post(
+        '/properties',
+        data: formData,
+        options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+      );
+
       return PropertyDetailResponseModel.fromJson(
         response.data as Map<String, dynamic>,
       );
