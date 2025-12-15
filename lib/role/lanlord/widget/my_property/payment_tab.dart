@@ -5,6 +5,7 @@ import 'package:rentverse/common/utils/network_utils.dart';
 import 'package:rentverse/features/bookings/domain/entity/res/booking_list_entity.dart';
 import 'package:rentverse/role/lanlord/presentation/cubit/booking_request/cubit.dart';
 import 'package:rentverse/role/lanlord/presentation/cubit/booking_request/state.dart';
+import 'package:rentverse/role/lanlord/presentation/pages/booking_detail.dart';
 import 'package:rentverse/role/lanlord/widget/my_property/property_components.dart';
 
 class PaymentTab extends StatelessWidget {
@@ -91,65 +92,84 @@ class _PaymentCard extends StatelessWidget {
     final badgeColor = isPendingPayment ? Colors.grey : const Color(0xFF1CD8D2);
     final paymentStatus = item.payment.status;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: bgColor,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => LandlordBookingDetailPage(booking: item),
+            ),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _PropertyThumb(item: item),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.property.title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _PropertyThumb(item: item),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.property.title,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          item.property.city,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          _dateRange(item.startDate, item.endDate),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        _StatusBadge(label: paymentStatus, color: badgeColor),
+                        const SizedBox(height: 4),
+                        Text(
+                          _formatAmount(
+                            item.payment.currency,
+                            item.payment.amount,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF0C7B77),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      item.property.city,
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      _dateRange(item.startDate, item.endDate),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    _StatusBadge(label: paymentStatus, color: badgeColor),
-                    const SizedBox(height: 4),
-                    Text(
-                      _formatAmount(item.payment.currency, item.payment.amount),
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF0C7B77),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

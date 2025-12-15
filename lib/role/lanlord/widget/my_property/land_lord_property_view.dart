@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/listing_tab.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/payment_tab.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/paid_tab.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/confirmed_tab.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/request_tab.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/rejected_tab.dart';
-import 'package:rentverse/role/lanlord/widget/my_property/submission_tab.dart';
 import 'package:rentverse/role/lanlord/presentation/pages/part_add_property.dart';
+import 'package:rentverse/role/lanlord/widget/my_property/listing_tab.dart';
+import 'package:rentverse/role/lanlord/widget/my_property/submission_tab.dart';
 
 class LandLordPropertyView extends StatelessWidget {
   const LandLordPropertyView({super.key});
@@ -40,25 +35,10 @@ class LandLordPropertyView extends StatelessWidget {
           tabs: [
             Tab(text: 'Submission'),
             Tab(text: 'My Listing'),
-            Tab(text: 'Request'),
-            Tab(text: 'Confirmed'),
-            Tab(text: 'Payment'),
-            Tab(text: 'Paid'),
-            Tab(text: 'Rejected'),
           ],
         ),
       ),
-      body: TabBarView(
-        children: const [
-          SubmissionTab(),
-          ListingTab(),
-          RequestTab(),
-          ConfirmedTab(),
-          PaymentTab(),
-          PaidTab(),
-          RejectedTab(),
-        ],
-      ),
+      body: const TabBarView(children: [SubmissionTab(), ListingTab()]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF1CD8D2),
         onPressed: () {

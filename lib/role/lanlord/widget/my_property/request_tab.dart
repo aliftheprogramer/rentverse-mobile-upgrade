@@ -5,6 +5,7 @@ import 'package:rentverse/common/utils/network_utils.dart';
 import 'package:rentverse/features/bookings/domain/entity/res/booking_list_entity.dart';
 import 'package:rentverse/role/lanlord/presentation/cubit/booking_request/cubit.dart';
 import 'package:rentverse/role/lanlord/presentation/cubit/booking_request/state.dart';
+import 'package:rentverse/role/lanlord/presentation/pages/booking_detail.dart';
 import 'package:rentverse/role/lanlord/widget/my_property/property_components.dart';
 
 class RequestTab extends StatelessWidget {
@@ -72,105 +73,123 @@ class _BookingRequestCard extends StatelessWidget {
     final state = context.watch<LandlordBookingRequestCubit>().state;
     final isWorking = state.isActionLoading && state.actionBookingId == item.id;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => LandlordBookingDetailPage(booking: item),
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _PropertyThumb(item: item),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _PropertyThumb(item: item),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.property.title,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          item.property.city,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          _dateRange(item.startDate, item.endDate),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        _StatusBadge(label: item.status),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              if (showActions)
+                Row(
                   children: [
-                    Text(
-                      item.property.title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.red,
+                          side: const BorderSide(color: Colors.red),
+                        ),
+                        onPressed: isWorking
+                            ? null
+                            : () => context
+                                  .read<LandlordBookingRequestCubit>()
+                                  .rejectBooking(item.id),
+                        child: isWorking
+                            ? const SizedBox(
+                                height: 16,
+                                width: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text('Reject booking'),
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      item.property.city,
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      _dateRange(item.startDate, item.endDate),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black87,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1CD8D2),
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: isWorking
+                            ? null
+                            : () => context
+                                  .read<LandlordBookingRequestCubit>()
+                                  .confirmBooking(item.id),
+                        child: isWorking
+                            ? const SizedBox(
+                                height: 16,
+                                width: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text('Accept booking'),
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    _StatusBadge(label: item.status),
                   ],
                 ),
-              ),
             ],
           ),
-          const SizedBox(height: 10),
-          if (showActions)
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red),
-                    ),
-                    onPressed: isWorking
-                        ? null
-                        : () => context
-                              .read<LandlordBookingRequestCubit>()
-                              .rejectBooking(item.id),
-                    child: isWorking
-                        ? const SizedBox(
-                            height: 16,
-                            width: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('Reject booking'),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1CD8D2),
-                      foregroundColor: Colors.white,
-                    ),
-                    onPressed: isWorking
-                        ? null
-                        : () => context
-                              .read<LandlordBookingRequestCubit>()
-                              .confirmBooking(item.id),
-                    child: isWorking
-                        ? const SizedBox(
-                            height: 16,
-                            width: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : const Text('Accept booking'),
-                  ),
-                ),
-              ],
-            ),
-        ],
+        ),
       ),
     );
   }

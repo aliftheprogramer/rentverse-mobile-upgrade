@@ -11,6 +11,7 @@ import 'package:rentverse/core/services/service_locator.dart';
 import 'package:rentverse/features/auth/domain/entity/user_entity.dart';
 import 'package:rentverse/features/auth/presentation/pages/auth_pages.dart';
 import 'package:rentverse/features/auth/presentation/pages/profile_pages.dart';
+import 'package:rentverse/role/lanlord/presentation/pages/booking.dart';
 import 'package:rentverse/role/lanlord/presentation/pages/chat.dart';
 import 'package:rentverse/role/lanlord/presentation/pages/dashboard.dart';
 import 'package:rentverse/role/lanlord/presentation/pages/property.dart';
@@ -79,6 +80,7 @@ _NavigationConfig _buildNavigationConfig(UserEntity user) {
       pages: const [
         LandlordDashboardPage(),
         LandlordPropertyPage(),
+        LandlordBookingPage(),
         LandlordChatPage(),
         ProfilePage(),
       ],
@@ -92,6 +94,11 @@ _NavigationConfig _buildNavigationConfig(UserEntity user) {
           icon: Icon(Icons.apartment, color: Colors.grey),
           activeIcon: GradientIcon(icon: Icons.apartment),
           label: 'Property',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.receipt_long, color: Colors.grey),
+          activeIcon: GradientIcon(icon: Icons.receipt_long),
+          label: 'Booking',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat, color: Colors.grey),
