@@ -6,6 +6,7 @@ import 'package:rentverse/core/services/service_locator.dart';
 import 'package:rentverse/features/wallet/presentation/cubit/cubit.dart';
 import 'package:rentverse/features/wallet/presentation/cubit/state.dart';
 import 'package:rentverse/features/wallet/domain/entity/my_wallet_response_entity.dart';
+import 'package:rentverse/features/wallet/presentation/pages/request_payout_page.dart';
 
 class MyWalletPage extends StatelessWidget {
   const MyWalletPage({super.key});
@@ -226,10 +227,20 @@ class _QuickActions extends StatelessWidget {
             icon: Icons.account_balance_wallet_outlined,
             label: 'Withdraw',
             onTap: () {
-              // TODO: Navigate to withdraw
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Withdraw coming soon')),
-              );
+              Navigator.of(context)
+                  .push<bool>(
+                    MaterialPageRoute(
+                      builder: (_) => RequestPayoutPage.withProvider(),
+                    ),
+                  )
+                  .then((ok) {
+                    if (ok == true && context.mounted) {
+                      context.read<WalletCubit>().refreshWallet();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Payout requested')),
+                      );
+                    }
+                  });
             },
           ),
         ),

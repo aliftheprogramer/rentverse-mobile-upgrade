@@ -52,6 +52,7 @@ import 'package:rentverse/features/wallet/data/repository/wallet_repository_impl
 import 'package:rentverse/features/wallet/data/source/wallet_api_service.dart';
 import 'package:rentverse/features/wallet/domain/repository/wallet_repository.dart';
 import 'package:rentverse/features/wallet/domain/usecase/get_wallet_usecase.dart';
+import 'package:rentverse/features/wallet/domain/usecase/request_payout_usecase.dart';
 import 'package:rentverse/features/property/data/repository/property_repository_impl.dart';
 import 'package:rentverse/features/property/data/source/property_api_service.dart';
 import 'package:rentverse/features/property/domain/repository/property_repository.dart';
@@ -198,6 +199,7 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton<WalletRepository>(
     () => WalletRepositoryImpl(sl<WalletApiService>()),
   );
+  sl.registerLazySingleton(() => RequestPayoutUseCase(sl<WalletRepository>()));
   sl.registerLazySingleton<MidtransApiService>(
     () => MidtransApiServiceImpl(sl<DioClient>()),
   );
@@ -253,6 +255,7 @@ Future<void> setupServiceLocator() async {
     () => GetRentReferencesUseCase(sl<RentalRepository>()),
   );
   sl.registerLazySingleton(() => GetWalletUseCase(sl<WalletRepository>()));
+  sl.registerLazySingleton(() => RequestPayoutUseCase(sl<WalletRepository>()));
   sl.registerLazySingleton(() => PayInvoiceUseCase(sl<MidtransRepository>()));
 
   sl.registerLazySingleton(() => GetBookingsUseCase(sl<BookingsRepository>()));
