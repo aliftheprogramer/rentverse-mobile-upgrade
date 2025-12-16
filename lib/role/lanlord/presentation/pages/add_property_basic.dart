@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -611,9 +612,19 @@ class _ImagePickerRow extends StatelessWidget {
         const SizedBox(height: 8),
         if (images.isNotEmpty) ...[
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: images.map((e) => Chip(label: Text(_fileName(e)))).toList(),
+            spacing: 12,
+            runSpacing: 12,
+            children: images.map((path) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.file(
+                  File(path),
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              );
+            }).toList(),
           ),
           const SizedBox(height: 12),
         ],
@@ -651,9 +662,5 @@ class _ImagePickerRow extends StatelessWidget {
     );
   }
 
-  String _fileName(String path) {
-    final parts = path.split('/');
-    if (parts.isEmpty) return path;
-    return parts.last;
-  }
+
 }
