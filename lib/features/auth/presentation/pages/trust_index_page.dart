@@ -62,11 +62,9 @@ class TrustIndexPage extends StatelessWidget {
         return cubit;
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
           title: const Text('Trust Index'),
           centerTitle: true,
-          backgroundColor: Colors.white,
         ),
         body: BlocBuilder<TrustIndexCubit, TrustIndexState>(
           builder: (context, state) {

@@ -47,10 +47,8 @@ class _ChatListPageState extends State<ChatListPage> {
           title: Text(widget.isLandlord ? 'Chat' : 'Chat'),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
         ),
-        backgroundColor: Colors.grey.shade100,
         body: BlocBuilder<ConversationListCubit, ConversationListState>(
           builder: (context, state) {
             if (state.status == ConversationListStatus.loading) {

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 /// Reusable app bar used across tenant screens.
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String displayName;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final double height;
   final VoidCallback? onNotificationTap;
 
   const CustomAppBar({
     super.key,
     required this.displayName,
-    this.backgroundColor = Colors.transparent,
+    this.backgroundColor,
     this.height = 60,
     this.onNotificationTap,
   });

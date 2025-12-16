@@ -71,10 +71,9 @@ class _PricingAndAmenityPropertyPageState
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+
         elevation: 0,
       ),
-      backgroundColor: Colors.white,
       body: BlocBuilder<AddPropertyCubit, AddPropertyState>(
         builder: (context, state) {
           return SingleChildScrollView(

@@ -55,14 +55,12 @@ class _LandlordDashboardView extends StatelessWidget {
           child: Scaffold(
             appBar: CustomAppBar(
               displayName: state.user?.name ?? 'Landlord',
-              backgroundColor: Colors.white,
               onNotificationTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const NotificationPage()),
                 );
               },
             ),
-            backgroundColor: Colors.grey.shade100,
             body: NotificationListener<ReloadDataNotification>(
               onNotification: (n) {
                 context.read<LandlordDashboardCubit>().refresh();
