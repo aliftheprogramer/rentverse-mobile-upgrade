@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentverse/features/notification/domain/usecase/get_notifications_usecase.dart';
 import 'package:rentverse/features/notification/domain/usecase/mark_notification_read_usecase.dart';
-import 'package:rentverse/features/notification/domain/usecase/get_notifications_usecase.dart';
-import 'package:rentverse/features/notification/domain/usecase/mark_notification_read_usecase.dart';
 import 'package:rentverse/features/notification/domain/usecase/mark_all_notifications_read_usecase.dart';
 import 'package:rentverse/features/notification/presentation/cubit/notification_state.dart';
 
